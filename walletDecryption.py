@@ -54,6 +54,8 @@ def walletDecryption(password, data, address):
   #try:
   pt = unpad(cipher.decrypt(ct), AES.block_size)
   privateKey = pt.decode('utf-8')
+  print(privateKey)
+  time.sleep(5)
   runWallet(privateKey, address)
   """
   except:
