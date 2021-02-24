@@ -34,6 +34,8 @@ def sendEth(privateKey, address):
 
 
 def receiveEth(address):
-  print(address)
-  image = Image.open('frame.png')
+  print("")
+  print(" Wallet Address: " + address)
+  print("")
+  image = Image.open('qr/' + address + ".png")
   image.show()

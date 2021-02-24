@@ -3,6 +3,7 @@ from pubKeyGen import EccMultiply, GPoint
 from privKeyGen import genPrivKey
 from walletDecryption import walletDecryption
 from walletInteractions import getEth
+from qr import qrGenerate
 import os
 import time
 import glob
@@ -18,22 +19,27 @@ import json
 from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes
 
 
+
+appRunning = True
+
+
+
 #Individual Transaction/Personal Information
 def createWallet():
-  os.system('cls')
-  print("╔═╗┌─┐┌┐┌┌─┐┬─┐┌─┐┌┬┐┌─┐  ╦ ╦┌─┐┬  ┬  ┌─┐┌┬┐")
-  print("║ ╦├┤ │││├┤ ├┬┘├─┤ │ ├┤   ║║║├─┤│  │  ├┤  │ ")
-  print("╚═╝└─┘┘└┘└─┘┴└─┴ ┴ ┴ └─┘  ╚╩╝┴ ┴┴─┘┴─┘└─┘ ┴ ")
+  os.system('cls' if os.name == 'nt' else 'clear')
+  print(" ╔═╗┌─┐┌┐┌┌─┐┬─┐┌─┐┌┬┐┌─┐  ╦ ╦┌─┐┬  ┬  ┌─┐┌┬┐")
+  print(" ║ ╦├┤ │││├┤ ├┬┘├─┤ │ ├┤   ║║║├─┤│  │  ├┤  │ ")
+  print(" ╚═╝└─┘┘└┘└─┘┴└─┴ ┴ ┴ └─┘  ╚╩╝┴ ┴┴─┘┴─┘└─┘ ┴ ")
   print("")
-  print("############################################")
+  print(" ############################################")
   print("")
-  print("> Please Input a Secure Password")
+  print(" > Please Input a Secure Password")
   print("")
-  password = input("> ")
+  password = input(" > ")
   time.sleep(2)
 
   print("")
-  print("> Generating Wallet")
+  print(" > Generating Wallet")
   privKey = genPrivKey() 
 
   PublicKey = EccMultiply(GPoint,privKey)
@@ -45,7 +51,7 @@ def createWallet():
   time.sleep(2)
 
   print("")
-  print("> Encrypting Wallet")
+  print(" > Encrypting Wallet")
   salt = get_random_bytes(16)
   key = scrypt(password, salt, 32, N=2**20, r = 8, p = 1)
   privKey = hex(privKey)[2:]
@@ -62,16 +68,35 @@ def createWallet():
 
   with open("wallets/" + address + '.txt', 'w') as json_file:
     json.dump(output, json_file) 
+
+  qrGenerate(address)
   
   print("")
-  print("> Wallet Created")
+  print(" > Wallet Created")
   time.sleep(2)
+  print("")
+  print(" > Do you want to return to the home screen [y/n]?")
+  print("")
+  userInput = input(" > ")
+  print("")
+  userInputCheck = False
+  while userInputCheck == False:
+    if userInput == 'y':
+      userInputCheck = True
+      return True
+    elif userInput == 'n':
+      userInputCheck = True
+      return False
+    else:
+      print(" > Only y and n are correct inputs")
+
+
 
 
 def decodeWallet():
   walletSelect = False
   while walletSelect == False:
-    os.system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
     print(" ╔═╗┌─┐┬  ┌─┐┌─┐┌┬┐  ╦ ╦┌─┐┬  ┬  ┌─┐┌┬┐")
     print(" ╚═╗├┤ │  ├┤ │   │   ║║║├─┤│  │  ├┤  │")
     print(" ╚═╝└─┘┴─┘└─┘└─┘ ┴   ╚╩╝┴ ┴┴─┘┴─┘└─┘ ┴")
@@ -91,17 +116,20 @@ def decodeWallet():
       walletName = availableWallets[int(walletSelector)-1]
       with open("wallets/" + walletName) as f:
         data = json.load(f)
-      print(data)
-
-      print("Enter Password:")
+      #print(data)
+      """
+      print(" Enter Password:")
+      print("")
       password = input(" > ")
+      """
       address = walletName[:-4]
       walletSelect = True
-      walletDecryption(password, data, address)
+      walletDecryption(data, address)
+    return True
 
 
 def migrateWallet():
-  os.system('cls')
+  os.system('cls' if os.name == 'nt' else 'clear')
   print(" ╔╦╗┬┌─┐┬─┐┌─┐┌┬┐┌─┐  ╦ ╦┌─┐┬  ┬  ┌─┐┌┬┐")
   print(" ║║║││ ┬├┬┘├─┤ │ ├┤   ║║║├─┤│  │  ├┤  │ ")
   print(" ╩ ╩┴└─┘┴└─┴ ┴ ┴ └─┘  ╚╩╝┴ ┴┴─┘┴─┘└─┘ ┴ ")
@@ -214,15 +242,11 @@ def migrateWallet():
     startWallet()
 
 
-    
-
-    
-
 
 def startWallet():
   userOption = False
   while(userOption == False):
-    os.system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("")
     print("  ██████╗ ██████╗ ███████╗██╗     ██╗███████╗██╗  ██╗")
     print(" ██╔═══██╗██╔══██╗██╔════╝██║     ██║██╔════╝██║ ██╔╝")
@@ -241,7 +265,7 @@ def startWallet():
     print("")
     userInput = input(" > ")
     if userInput != "1" and userInput != "2" and userInput != "3":
-      os.system('cls')
+      os.system('cls' if os.name == 'nt' else 'clear')
       print("")
       print(" > Oops, wrong input!")
       print("")
@@ -252,13 +276,18 @@ def startWallet():
       errorInput = input(" > ")
     else:
       userOption = True
+      print(userOption)
   
   if userInput == "1":
-    decodeWallet()
+    appStatus = decodeWallet()
+    return appStatus
   elif userInput == "2":
-    createWallet()
+    appStatus = createWallet()
+    return appStatus
+    
   elif userInput == "3":
     migrateWallet()
-  
-startWallet()
+
+while appRunning == True: 
+  appRunning = startWallet()
 
