@@ -263,13 +263,15 @@ def startWallet():
     print("")
     print(" 3: Migrate Wallet")
     print("")
+    print(" 4: Exit Obelisk")
+    print("")
     userInput = input(" > ")
-    if userInput != "1" and userInput != "2" and userInput != "3":
+    if userInput != "1" and userInput != "2" and userInput != "3" and userInput != "4":
       os.system('cls' if os.name == 'nt' else 'clear')
       print("")
       print(" > Oops, wrong input!")
       print("")
-      print(" > 1 or 2 is the only acceptable input")
+      print(" > 1, 2, 3, or 4 is the only acceptable input")
       print("")
       print(" > Hit enter to continue")
       print("")
@@ -284,9 +286,11 @@ def startWallet():
   elif userInput == "2":
     appStatus = createWallet()
     return appStatus
-    
   elif userInput == "3":
     migrateWallet()
+  elif userInput == "4":
+    os.system('cls' if os.name == 'nt' else 'clear')
+    return False
 
 while appRunning == True: 
   appRunning = startWallet()

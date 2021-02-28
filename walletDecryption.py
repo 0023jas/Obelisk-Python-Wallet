@@ -44,38 +44,39 @@ def getWalletStats():
 
 
 def runWallet(privateKey, address):
-  os.system('cls' if os.name == 'nt' else 'clear')
-  
-  ethStats = getWalletStats()
-
-  walletEthereumValue = round(weiToEth(getEth(address)), 6)
-  walletDollarValue = round(walletEthereumValue * ethStats[0], 2)
-
-  lowGas = ethStats[1]
-  avgGas = ethStats[2]
-  highGas = ethStats[3]
-
-  print("")
-  print(" ╔═╗┌┐ ┌─┐┬  ┬┌─┐┬┌─  ╦ ╦┌─┐┬  ┬  ┌─┐┌┬┐")
-  print(" ║ ║├┴┐├┤ │  │└─┐├┴┐  ║║║├─┤│  │  ├┤  │ ")
-  print(" ╚═╝└─┘└─┘┴─┘┴└─┘┴ ┴  ╚╩╝┴ ┴┴─┘┴─┘└─┘ ┴ ")
-  print("")
-  print(" #######################################")
-  print("")
-  print(" Address: " + address)
-  print(" Ethereum Value: Ξ" + str(walletEthereumValue))
-  print(" Dollar Value: $" + str(walletDollarValue))
-  print("")
-  print(" Current Gas Prices in Gwei:")
-  print(" Low: " + str(lowGas) + ", Average: " + str(avgGas) + ", High: " + str(highGas))
-  print("")
-  print(" Actions: ")
-  print(" 1: Send")
-  print(" 2: Receive")
-  print(" 3: Exit")
-  print("")
   userQuit = False
   while userQuit == False:
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    ethStats = getWalletStats()
+
+    walletEthereumValue = round(weiToEth(getEth(address)), 6)
+    walletDollarValue = round(walletEthereumValue * ethStats[0], 2)
+
+    lowGas = ethStats[1]
+    avgGas = ethStats[2]
+    highGas = ethStats[3]
+
+    print("")
+    print(" ╔═╗┌┐ ┌─┐┬  ┬┌─┐┬┌─  ╦ ╦┌─┐┬  ┬  ┌─┐┌┬┐")
+    print(" ║ ║├┴┐├┤ │  │└─┐├┴┐  ║║║├─┤│  │  ├┤  │ ")
+    print(" ╚═╝└─┘└─┘┴─┘┴└─┘┴ ┴  ╚╩╝┴ ┴┴─┘┴─┘└─┘ ┴ ")
+    print("")
+    print(" #######################################")
+    print("")
+    print(" Address: " + address)
+    print(" Ethereum Value: Ξ" + str(walletEthereumValue))
+    print(" Dollar Value: $" + str(walletDollarValue))
+    print("")
+    print(" Current Gas Prices in Gwei:")
+    print(" Low: " + str(lowGas) + ", Average: " + str(avgGas) + ", High: " + str(highGas))
+    print("")
+    print(" Actions: ")
+    print(" 1: Send")
+    print(" 2: Receive")
+    print(" 3: Exit")
+    print("")
+  
     userInput = input(" > ")
     if userInput == "1":
       sendEth(privateKey, address)
@@ -109,9 +110,9 @@ def walletDecryption(data, address):
       pt = unpad(cipher.decrypt(ct), AES.block_size)
       privateKey = pt.decode('utf-8')
       #print(privateKey)
-      time.sleep(5)
-      runWallet(privateKey, address)
+      #time.sleep(5)
       correctPassword = True
+      runWallet(privateKey, address)
 
     except:
       if password == 'n':
