@@ -23,6 +23,7 @@ def getWalletStats():
     avgFee = gasSoup.find('div', {'class':'standard'})
     highFee = gasSoup.find('div', {'class':'fast'})
 
+    #Appending Gas Values 
     statsList.append(int(lowFee.contents[0]))
     statsList.append(int(avgFee.contents[0]))
     statsList.append(int(highFee.contents[0]))
