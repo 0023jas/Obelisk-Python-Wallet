@@ -1,0 +1,7 @@
+requests==2.22.0
+bip_utils==1.6.0
+web3==5.16.0
+qrcode==6.1
+beautifulsoup4==4.9.3
+Pillow==8.1.0
+pycryptodome==3.10.1
