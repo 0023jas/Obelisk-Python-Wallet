@@ -18,7 +18,7 @@ could be used as a main wallet using the code here as a good stepping stone.
 ### Dependencies
 
 * Built using Python 3.8.5, should work on Python 3 and above
-* Built on Linux, should also run on Windows and possibly macOS
+* Built on Linux, should also run on Windows and macOS
 
 ### Libraries/Modules
 
