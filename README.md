@@ -35,7 +35,7 @@ could be used as a main wallet using the code here as a good stepping stone.
 * Download the repository 
 * Unzip the repository into the desired location
 
-### Executing program
+### Executing Program
 
 * cd into the folders location
 * cd into Obelisk-Python-Wallet
